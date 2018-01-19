@@ -26,7 +26,7 @@
     ],
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "license": "GPL-2.0+",
+    "license": "GPL-2.0-or-later",
     "repositories": [
         {
             "type": "composer",
@@ -75,7 +75,7 @@
             "drupal/core": {
                 "Move File/Image media type into Standard once Media is stable": "https://www.drupal.org/files/issues/2883813-27.patch",
                 "Add action support to Media module": "https://www.drupal.org/files/issues/2877383-39.patch",
-                "Recursive rebuild caused by installing admin_toolbar_tools module": "https://www.drupal.org/files/issues/2930715-2-4.patch"
+                "Setting a revision ID on a new entity sets the newRevision flag to false": "https://www.drupal.org/files/issues/revision-id-unset-2934517-2.patch"
             },
             "drupal/redirect": {
                 "Provided config does not match the config after an export": "https://www.drupal.org/files/issues/2932248.patch"
@@ -97,7 +97,7 @@
         "drupal/blazy": "^1.0",
         "drupal/breakpoint_js_settings": "^1.0",
         "drupal/checklistapi": "^1.0",
-        "drupal/core": "8.4.3",
+        "drupal/core": "8.4.4",
         "drupal/config_update": "^1.0",
         "drupal/content_lock": "^1.0",
         "drupal/crop": "^2.0",

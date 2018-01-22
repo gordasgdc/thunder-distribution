@@ -72,6 +72,7 @@ projects[media_entity_instagram][type] = module
 projects[media_entity_instagram][version] = 2
 projects[media_entity_pinterest][type] = module
 projects[media_entity_pinterest][version] = 2
+projects[media_entity_pinterest][patch][] = https://www.drupal.org/files/issues/2837977_media-name-always-h.patch
 projects[media_entity_slideshow][type] = module
 projects[media_entity_slideshow][version] = 2
 projects[media_entity_twitter][type] = module

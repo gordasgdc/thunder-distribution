@@ -72,6 +72,9 @@
             "drupal/entity_browser": {
                 "Provide inline entity form FieldWidgetDisplay": "https://www.drupal.org/files/issues/2858438_6.patch"
             },
+            "drupal/media_entity_pinterest": {
+                "Media name always 'h'": "https://www.drupal.org/files/issues/2837977_media-name-always-h.patch"
+            },
             "drupal/core": {
                 "Move File/Image media type into Standard once Media is stable": "https://www.drupal.org/files/issues/2883813-27.patch",
                 "Add action support to Media module": "https://www.drupal.org/files/issues/2877383-39.patch",

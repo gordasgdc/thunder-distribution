@@ -1,0 +1,33 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - search_api.server.localhost
+  module:
+    - search_api
+    - node
+id: articles
+name: Articles
+description: ''
+read_only: false
+field_settings: {  }
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: false
+      selected:
+        - article
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  rendered_item: {  }
+  add_url: {  }
+  aggregated_field: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  index_directly: true
+  cron_limit: 50
+server: localhost

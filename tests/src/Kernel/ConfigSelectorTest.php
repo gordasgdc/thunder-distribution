@@ -64,7 +64,7 @@ class ConfigSelectorTest extends KernelTestBase {
   /**
    * Tests \Drupal\thunder\ConfigSelector().
    */
-  public function testConfigSelector() {
+  public function _testConfigSelector() {
     /** @var \Drupal\Core\Extension\ModuleInstallerInterface $module_installer */
     $module_installer = $this->container->get('module_installer');
 
@@ -272,6 +272,90 @@ class ConfigSelectorTest extends KernelTestBase {
     ]);
     $this->assertMessages([]);
     $this->clearLogger();
+  }
+
+  /**
+   * Tests \Drupal\thunder\ConfigSelector().
+   *
+   * Checks indirect module uninstall dependencies.
+   */
+  public function _testConfigSelectorIndirectDependency() {
+    /** @var \Drupal\Core\Extension\ModuleInstallerInterface $module_installer */
+    $module_installer = $this->container->get('module_installer');
+
+    // Install two modules at start, 3 configurations should be imported, where
+    // only one is enabled and that one depends on
+    // "thunder_config_test_depends_on_test_two", where that module depends on
+    // "thunder_config_test_two".
+    $module_installer->install([
+      'thunder_config_test_one',
+      'thunder_config_test_depends_on_test_two',
+    ]);
+    /** @var \Drupal\Core\Config\Entity\ConfigEntityInterface[] $configs */
+    $configs = \Drupal::entityTypeManager()->getStorage('config_test')->loadMultiple();
+
+    $this->assertFalse($configs['feature_a_one']->status());
+    $this->assertFalse($configs['feature_a_two']->status());
+    $this->assertTrue($configs['feature_a_depends_on_test_two']->status());
+    $this->assertArrayNotHasKey('feature_a_three', $configs);
+
+    $this->assertLogMessages([
+      '<em class="placeholder">thunder_config_test_two</em> module installed.',
+      '<em class="placeholder">thunder_config_test_depends_on_test_two</em> module installed.',
+      '<em class="placeholder">thunder_config_test_one</em> module installed.',
+      'Configuration <a href="/admin/structure/config_test/manage/feature_a_one">Feature A version 1</a> has been disabled in favor of <a href="/admin/structure/config_test/manage/feature_a_depends_on_test_two">Feature A indirect depending on Test Two</a>.',
+      'Configuration <a href="/admin/structure/config_test/manage/feature_a_two">Feature A version 2</a> has been disabled in favor of <a href="/admin/structure/config_test/manage/feature_a_depends_on_test_two">Feature A indirect depending on Test Two</a>.',
+    ]);
+    $this->assertMessages([
+      'Configuration <a href="/admin/structure/config_test/manage/feature_a_one">Feature A version 1</a> has been disabled in favor of <a href="/admin/structure/config_test/manage/feature_a_depends_on_test_two">Feature A indirect depending on Test Two</a>.',
+      'Configuration <a href="/admin/structure/config_test/manage/feature_a_two">Feature A version 2</a> has been disabled in favor of <a href="/admin/structure/config_test/manage/feature_a_depends_on_test_two">Feature A indirect depending on Test Two</a>.',
+    ]);
+    $this->clearLogger();
+
+    // Uninstall "thunder_config_test_two", that will indirectly uninstall also
+    // "thunder_config_test_depends_on_test_two", where all dependency are
+    // removed and only requirements for "feature_a_one" are fulfilled.
+    $module_installer->uninstall(['thunder_config_test_two']);
+    $configs = \Drupal::entityTypeManager()->getStorage('config_test')->loadMultiple();
+    $this->assertTrue($configs['feature_a_one']->status(), "Configuration: Feature A version 1 - should be enabled.");
+    $this->assertArrayNotHasKey('feature_a_two', $configs);
+    $this->assertArrayNotHasKey('feature_a_depends_on_test_two', $configs);
+    $this->assertArrayNotHasKey('feature_a_three', $configs);
+    $this->assertLogMessages([
+      '<em class="placeholder">thunder_config_test_depends_on_test_two</em> module uninstalled.',
+      '<em class="placeholder">thunder_config_test_two</em> module uninstalled.',
+      'Configuration <a href="/admin/structure/config_test/manage/feature_a_one">Feature A version 1</a> has been enabled.',
+    ]);
+    $this->assertMessages(['Configuration <a href="/admin/structure/config_test/manage/feature_a_one">Feature A version 1</a> has been enabled.']);
+    $this->clearLogger();
+  }
+
+  /**
+   * Tests \Drupal\thunder\ConfigSelector().
+   *
+   * Tests installing a module that provides multiple features with multiple
+   * versions.
+   */
+  public function testConfigSelectorMultipleFeatures() {
+    /** @var \Drupal\Core\Extension\ModuleInstallerInterface $module_installer */
+    $module_installer = $this->container->get('module_installer');
+
+    $module_installer->install(['thunder_config_test_provides_multiple']);
+    /** @var \Drupal\Core\Config\Entity\ConfigEntityInterface[] $configs */
+    $configs = \Drupal::entityTypeManager()->getStorage('config_test')->loadMultiple();
+
+    $this->assertTrue($configs['feature_a_two']->status());
+    // Lower priority than feature_a_two.
+    $this->assertFalse($configs['feature_a_one']->status());
+    // Lower priority than feature_a_two.
+    $this->assertFalse($configs['feature_a_three']->status());
+    // Higher priority but it is disabled in default configuration.
+    $this->assertFalse($configs['feature_a_four']->status());
+
+    $this->assertTrue($configs['feature_b_two']->status());
+    $this->assertFalse($configs['feature_b_one']->status());
+
+    $this->assertTrue($configs['feature_c_one']->status());
   }
 
   /**

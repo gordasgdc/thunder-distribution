@@ -11,6 +11,7 @@ dependencies:
   module:
     - media_entity
     - node
+    - thunder
     - user
 third_party_settings:
   thunder:

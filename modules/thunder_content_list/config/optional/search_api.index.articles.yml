@@ -1,6 +1,9 @@
 langcode: en
 status: true
 dependencies:
+  enforced:
+    module:
+      - search_api_db
   config:
     - search_api.server.localhost
   module:

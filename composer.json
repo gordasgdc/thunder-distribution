@@ -72,19 +72,12 @@
             "drupal/entity_browser": {
                 "Provide inline entity form FieldWidgetDisplay": "https://www.drupal.org/files/issues/2858438_6.patch"
             },
-            "drupal/core": {
-                "Provide a delete action for each content entity type": "https://www.drupal.org/files/issues/2670730-81.patch",
-                "Broken tests on PHP 5": "https://www.drupal.org/files/issues/2939991-2.patch",
-                "Add action support to Media module": "https://www.drupal.org/files/issues/2877383-56.patch"
-            },
             "drupal/redirect": {
                 "Provided config does not match the config after an export": "https://www.drupal.org/files/issues/2932248-3.patch"
             }
         }
     },
     "require": {
-        "burdamagazinorg/infinite_module": "dev-feature/media-in-core",
-        "burdamagazinorg/infinite_theme": "^1.0",
         "composer/installers": "^1.0",
         "cweagans/composer-patches": "~1.0",
         "drupal/amp": "1.0",
@@ -98,7 +91,7 @@
         "drupal/blazy": "^1.0",
         "drupal/breakpoint_js_settings": "^1.0",
         "drupal/checklistapi": "^1.0",
-        "drupal/core": "^8.5.0",
+        "drupal/core": "8.6.x-dev",
         "drupal/config_selector": "^1.0",
         "drupal/config_update": "^1.0",
         "drupal/content_lock": "^1.0",
@@ -127,12 +120,10 @@
         "drupal/media_entity_slideshow": "^2.0",
         "drupal/media_entity_twitter": "^2.0",
         "drupal/media_expire": "^2.0",
-        "burdamagazinorg/nexx_integration": "dev-feature/move-to-core-media",
         "drupal/metatag": "^1.0",
         "drupal/paragraphs": "1.1",
         "drupal/pathauto": "^1.0",
         "drupal/responsive_preview": "^1.0",
-        "drupal/riddle_marketplace": "^3.0",
         "drupal/redirect": "1.0",
         "drupal/scheduler": "^1.0",
         "drupal/simple_sitemap": "^2.0",
@@ -142,13 +133,17 @@
         "drupal/thunder_admin": ">=1",
         "drupal/token": "^1.0",
         "drupal/video_embed_field": "^2.0",
-        "drupal/views_load_more": "dev-1.x",
-        "valiton/harbourmaster": "~8.1",
         "bower-asset/dropzone": "^5.1",
         "bower-asset/exif-js": "^2.3.0",
         "bower-asset/blazy": "^1.6.0",
         "bower-asset/slick-carousel": "^1.6",
         "bower-asset/shariff": "^1.24"
+    },
+    "suggest": {
+        "drupal/riddle_marketplace": "Riddle marketplace integration",
+        "drupal/nexx_integration": "NEXX Video CMS integration",
+        "monolog/monolog": "Allows more advanced logging of the application flow",
+        "valiton/harbourmaster": "Harbourmaster Single Sign On"
     },
     "replace": {
         "lullabot/amp": "*",

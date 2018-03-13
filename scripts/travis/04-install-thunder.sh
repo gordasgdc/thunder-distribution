@@ -50,7 +50,7 @@ composer_create_thunder() {
 
     cd ${TEST_DIR}
     composer config repositories.thunder path ${THUNDER_DIST_DIR}
-    composer require "burdamagazinorg/thunder:*" "drupal/thunder_admin:dev-2.x" --no-progress
+    composer require "burdamagazinorg/thunder:*" "drupal/thunder_admin:dev-2.x" --no-progress --install-suggests
 }
 
 apply_patches() {

@@ -6,7 +6,6 @@ dependencies:
     - field.storage.node.field_teaser_media
     - image.style.thumbnail
   module:
-    - content_lock
     - media
     - node
     - user

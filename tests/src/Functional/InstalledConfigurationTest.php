@@ -449,8 +449,8 @@ class InstalledConfigurationTest extends ThunderBaseTest {
       // Validate fetched configuration against corresponding schema.
       if ($typedConfigManager->hasConfigSchema($activeConfigName)) {
         // Validate active configuration.
-        if ($this->checkConfigSchema($typedConfigManager, $activeConfigName, $activeConfig) !== TRUE) {
-          $schemaCheckFail['active'][] = $activeConfigName;
+        if (($activeConfigCheck = $this->checkConfigSchema($typedConfigManager, $activeConfigName, $activeConfig)) !== TRUE) {
+          $schemaCheckFail['active'][] = [$activeConfigName => $activeConfigCheck];
         }
 
         // Validate configuration from file.
